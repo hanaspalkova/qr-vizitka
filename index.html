@@ -268,20 +268,20 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
     .bc-info { flex: 1; min-width: 0; overflow: hidden; }
 
     .bc-name {
-      font-size: 22px;
+      font-size: calc(22px * var(--fscale, 1));
       font-weight: 700;
       margin-bottom: 3px;
       line-height: 1.2;
     }
 
     .bc-company {
-      font-size: 15px;
+      font-size: calc(15px * var(--fscale, 1));
       opacity: 0.8;
       margin-bottom: 2px;
     }
 
     .bc-position {
-      font-size: 13px;
+      font-size: calc(13px * var(--fscale, 1));
       opacity: 0.6;
       margin-bottom: 14px;
     }
@@ -292,7 +292,7 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
       display: flex;
       align-items: center;
       gap: 7px;
-      font-size: 12px;
+      font-size: calc(12px * var(--fscale, 1));
       opacity: 0.9;
     }
 
@@ -841,6 +841,14 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
           </div>
         </div>
       </div>
+      <div style="margin-top:14px;">
+        <div class="size-row">
+          <label style="margin:0;white-space:nowrap;">Velikost písma</label>
+          <input type="range" id="cardFontSlider" min="70" max="150" step="5" value="100">
+          <span id="cardFontLabel" style="font-size:0.85rem;color:#718096;min-width:40px;">100 %</span>
+        </div>
+      </div>
+
       <div class="card-themes" id="cardThemes"></div>
 
       <div style="margin-top:18px;">
@@ -933,7 +941,7 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
   window.addEventListener('resize', scaleCardPreview);
 
   const svgPhone = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`;
-  const svgMail  = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`;
+  const svgMail  = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6 L12 13 L2 6"/></svg>`;
   const svgWeb   = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`;
 
   function updatePreview() {
@@ -1157,7 +1165,12 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
       ? `url('${customBgDataUrl}') center/cover no-repeat`
       : theme.bg;
     const cardColor = customBgDataUrl ? 'white' : theme.text;
-    const qrDataUrl = canvas.toDataURL('image/png');
+
+    // Vygeneruj QR v tiskové kvalitě (600px) nezávisle na slideru
+    const dark = document.getElementById('qrColorDark').value;
+    const light = document.getElementById('qrColorLight').value;
+    const printQr = new QRious({ value: unescape(encodeURIComponent(currentVCard)), size: 600, level: logoDataUrl ? 'H' : 'M', foreground: dark, background: light });
+    const qrDataUrl = printQr.canvas.toDataURL('image/png');
 
     const printWin = window.open('', '_blank');
     printWin.document.write(`
@@ -1185,10 +1198,10 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
             print-color-adjust: exact;
           }
           .info { flex: 1; overflow: hidden; }
-          .name { font-size: 13pt; font-weight: 700; margin-bottom: 1mm; color: ${cardColor}; }
-          .company { font-size: 8.5pt; opacity: 0.75; margin-bottom: 0.5mm; }
-          .pos { font-size: 7.5pt; opacity: 0.55; margin-bottom: 3mm; }
-          .contact { display: flex; align-items: center; gap: 1.5mm; font-size: 7pt; opacity: 0.85; margin-bottom: 1mm; }
+          .name { font-size: ${(13 * cardFontScale).toFixed(1)}pt; font-weight: 700; margin-bottom: 1mm; color: ${cardColor}; }
+          .company { font-size: ${(8.5 * cardFontScale).toFixed(1)}pt; opacity: 0.75; margin-bottom: 0.5mm; }
+          .pos { font-size: ${(7.5 * cardFontScale).toFixed(1)}pt; opacity: 0.55; margin-bottom: 3mm; }
+          .contact { display: flex; align-items: center; gap: 1.5mm; font-size: ${(7 * cardFontScale).toFixed(1)}pt; opacity: 0.85; margin-bottom: 1mm; }
           .qr-wrap { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 1mm; }
           .qr-wrap img { width: 35mm; height: 35mm; border-radius: 2mm; display: block; }
           .qr-label { font-size: 5pt; opacity: 0.5; text-align: center; }
@@ -1201,7 +1214,7 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
             <div class="company">${company}</div>
             <div class="pos">${pos}</div>
             ${mobile ? `<div class="contact"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:3px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>${mobile}</div>` : ''}
-            ${email ? `<div class="contact"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:3px"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>${email}</div>` : ''}
+            ${email ? `<div class="contact"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:3px"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6 L12 13 L2 6"/></svg>${email}</div>` : ''}
             ${website ? `<div class="contact"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:3px"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>${website}</div>` : ''}
           </div>
           <div class="qr-wrap">
@@ -1476,11 +1489,28 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
     applyTheme(activeTheme);
   }
 
+  // --- VELIKOST PÍSMA VIZITKY ---
+  let cardFontScale = parseFloat(localStorage.getItem('qr-font-scale') || '1');
+
+  function applyFontScale(scale) {
+    cardFontScale = scale;
+    localStorage.setItem('qr-font-scale', scale);
+    document.getElementById('cardPreview').style.setProperty('--fscale', scale);
+    const pct = Math.round(scale * 100);
+    document.getElementById('cardFontSlider').value = pct;
+    document.getElementById('cardFontLabel').textContent = pct + ' %';
+  }
+
+  document.getElementById('cardFontSlider').addEventListener('input', function() {
+    applyFontScale(this.value / 100);
+  });
+
   // Načti galerii, barvy a font při startu
   loadGallery();
   loadColorSettings();
   initThemes();
   initFonts();
+  applyFontScale(cardFontScale);
   scaleCardPreview();
   if (customBgDataUrl) {
     applyCustomBg();
