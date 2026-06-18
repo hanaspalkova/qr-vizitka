@@ -187,15 +187,16 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
     .right-col { display: flex; flex-direction: column; gap: 20px; }
 
     /* QR výstup */
-    .qr-output { text-align: center; display: flex; flex-direction: column; align-items: center; }
+    .qr-output { text-align: center; }
 
     #qr-container {
-      display: inline-block;
+      display: block;
+      width: fit-content;
+      margin: 0 auto;
       padding: 16px;
       background: white;
       border-radius: 12px;
       border: 2px solid #e2e8f0;
-      position: relative;
     }
 
     #qr-container canvas, #qr-container img { display: block; }
