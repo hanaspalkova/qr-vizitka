@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Generátor Vizitek</title>
+  <script>/*! QRious v4.0.2 | (C) 2017 Alasdair Mercer | GPL v3 License
+Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
+*/
+!function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define(e):t.QRious=e()}(this,function(){"use strict";function t(t,e){var n;return"function"==typeof Object.create?n=Object.create(t):(s.prototype=t,n=new s,s.prototype=null),e&&i(!0,n,e),n}function e(e,n,s,r){var o=this;return"string"!=typeof e&&(r=s,s=n,n=e,e=null),"function"!=typeof n&&(r=s,s=n,n=function(){return o.apply(this,arguments)}),i(!1,n,o,r),n.prototype=t(o.prototype,s),n.prototype.constructor=n,n.class_=e||o.class_,n.super_=o,n}function i(t,e,i){for(var n,s,a=0,h=(i=o.call(arguments,2)).length;a<h;a++){s=i[a];for(n in s)t&&!r.call(s,n)||(e[n]=s[n])}}function n(){}var s=function(){},r=Object.prototype.hasOwnProperty,o=Array.prototype.slice,a=e;n.class_="Nevis",n.super_=Object,n.extend=a;var h=n,f=h.extend(function(t,e,i){this.qrious=t,this.element=e,this.element.qrious=t,this.enabled=Boolean(i)},{draw:function(t){},getElement:function(){return this.enabled||(this.enabled=!0,this.render()),this.element},getModuleSize:function(t){var e=this.qrious,i=e.padding||0,n=Math.floor((e.size-2*i)/t.width);return Math.max(1,n)},getOffset:function(t){var e=this.qrious,i=e.padding;if(null!=i)return i;var n=this.getModuleSize(t),s=Math.floor((e.size-n*t.width)/2);return Math.max(0,s)},render:function(t){this.enabled&&(this.resize(),this.reset(),this.draw(t))},reset:function(){},resize:function(){}}),c=f.extend({draw:function(t){var e,i,n=this.qrious,s=this.getModuleSize(t),r=this.getOffset(t),o=this.element.getContext("2d");for(o.fillStyle=n.foreground,o.globalAlpha=n.foregroundAlpha,e=0;e<t.width;e++)for(i=0;i<t.width;i++)t.buffer[i*t.width+e]&&o.fillRect(s*e+r,s*i+r,s,s)},reset:function(){var t=this.qrious,e=this.element.getContext("2d"),i=t.size;e.lineWidth=1,e.clearRect(0,0,i,i),e.fillStyle=t.background,e.globalAlpha=t.backgroundAlpha,e.fillRect(0,0,i,i)},resize:function(){var t=this.element;t.width=t.height=this.qrious.size}}),u=h.extend(null,{BLOCK:[0,11,15,19,23,27,31,16,18,20,22,24,26,28,20,22,24,24,26,28,28,22,24,24,26,26,28,28,24,24,26,26,26,28,28,24,26,26,26,28,28]}),l=h.extend(null,{BLOCKS:[1,0,19,7,1,0,16,10,1,0,13,13,1,0,9,17,1,0,34,10,1,0,28,16,1,0,22,22,1,0,16,28,1,0,55,15,1,0,44,26,2,0,17,18,2,0,13,22,1,0,80,20,2,0,32,18,2,0,24,26,4,0,9,16,1,0,108,26,2,0,43,24,2,2,15,18,2,2,11,22,2,0,68,18,4,0,27,16,4,0,19,24,4,0,15,28,2,0,78,20,4,0,31,18,2,4,14,18,4,1,13,26,2,0,97,24,2,2,38,22,4,2,18,22,4,2,14,26,2,0,116,30,3,2,36,22,4,4,16,20,4,4,12,24,2,2,68,18,4,1,43,26,6,2,19,24,6,2,15,28,4,0,81,20,1,4,50,30,4,4,22,28,3,8,12,24,2,2,92,24,6,2,36,22,4,6,20,26,7,4,14,28,4,0,107,26,8,1,37,22,8,4,20,24,12,4,11,22,3,1,115,30,4,5,40,24,11,5,16,20,11,5,12,24,5,1,87,22,5,5,41,24,5,7,24,30,11,7,12,24,5,1,98,24,7,3,45,28,15,2,19,24,3,13,15,30,1,5,107,28,10,1,46,28,1,15,22,28,2,17,14,28,5,1,120,30,9,4,43,26,17,1,22,28,2,19,14,28,3,4,113,28,3,11,44,26,17,4,21,26,9,16,13,26,3,5,107,28,3,13,41,26,15,5,24,30,15,10,15,28,4,4,116,28,17,0,42,26,17,6,22,28,19,6,16,30,2,7,111,28,17,0,46,28,7,16,24,30,34,0,13,24,4,5,121,30,4,14,47,28,11,14,24,30,16,14,15,30,6,4,117,30,6,14,45,28,11,16,24,30,30,2,16,30,8,4,106,26,8,13,47,28,7,22,24,30,22,13,15,30,10,2,114,28,19,4,46,28,28,6,22,28,33,4,16,30,8,4,122,30,22,3,45,28,8,26,23,30,12,28,15,30,3,10,117,30,3,23,45,28,4,31,24,30,11,31,15,30,7,7,116,30,21,7,45,28,1,37,23,30,19,26,15,30,5,10,115,30,19,10,47,28,15,25,24,30,23,25,15,30,13,3,115,30,2,29,46,28,42,1,24,30,23,28,15,30,17,0,115,30,10,23,46,28,10,35,24,30,19,35,15,30,17,1,115,30,14,21,46,28,29,19,24,30,11,46,15,30,13,6,115,30,14,23,46,28,44,7,24,30,59,1,16,30,12,7,121,30,12,26,47,28,39,14,24,30,22,41,15,30,6,14,121,30,6,34,47,28,46,10,24,30,2,64,15,30,17,4,122,30,29,14,46,28,49,10,24,30,24,46,15,30,4,18,122,30,13,32,46,28,48,14,24,30,42,32,15,30,20,4,117,30,40,7,47,28,43,22,24,30,10,67,15,30,19,6,118,30,18,31,47,28,34,34,24,30,20,61,15,30],FINAL_FORMAT:[30660,29427,32170,30877,26159,25368,27713,26998,21522,20773,24188,23371,17913,16590,20375,19104,13663,12392,16177,14854,9396,8579,11994,11245,5769,5054,7399,6608,1890,597,3340,2107],LEVELS:{L:1,M:2,Q:3,H:4}}),_=h.extend(null,{EXPONENT:[1,2,4,8,16,32,64,128,29,58,116,232,205,135,19,38,76,152,45,90,180,117,234,201,143,3,6,12,24,48,96,192,157,39,78,156,37,74,148,53,106,212,181,119,238,193,159,35,70,140,5,10,20,40,80,160,93,186,105,210,185,111,222,161,95,190,97,194,153,47,94,188,101,202,137,15,30,60,120,240,253,231,211,187,107,214,177,127,254,225,223,163,91,182,113,226,217,175,67,134,17,34,68,136,13,26,52,104,208,189,103,206,129,31,62,124,248,237,199,147,59,118,236,197,151,51,102,204,133,23,46,92,184,109,218,169,79,158,33,66,132,21,42,84,168,77,154,41,82,164,85,170,73,146,57,114,228,213,183,115,230,209,191,99,198,145,63,126,252,229,215,179,123,246,241,255,227,219,171,75,150,49,98,196,149,55,110,220,165,87,174,65,130,25,50,100,200,141,7,14,28,56,112,224,221,167,83,166,81,162,89,178,121,242,249,239,195,155,43,86,172,69,138,9,18,36,72,144,61,122,244,245,247,243,251,235,203,139,11,22,44,88,176,125,250,233,207,131,27,54,108,216,173,71,142,0],LOG:[255,0,1,25,2,50,26,198,3,223,51,238,27,104,199,75,4,100,224,14,52,141,239,129,28,193,105,248,200,8,76,113,5,138,101,47,225,36,15,33,53,147,142,218,240,18,130,69,29,181,194,125,106,39,249,185,201,154,9,120,77,228,114,166,6,191,139,98,102,221,48,253,226,152,37,179,16,145,34,136,54,208,148,206,143,150,219,189,241,210,19,92,131,56,70,64,30,66,182,163,195,72,126,110,107,58,40,84,250,133,186,61,202,94,155,159,10,21,121,43,78,212,229,172,115,243,167,87,7,112,192,247,140,128,99,13,103,74,222,237,49,197,254,24,227,165,153,119,38,184,180,124,17,68,146,217,35,32,137,46,55,63,209,91,149,188,207,205,144,135,151,178,220,252,190,97,242,86,211,171,20,42,93,158,132,60,57,83,71,109,65,162,31,45,67,216,183,123,164,118,196,23,73,236,127,12,111,246,108,161,59,82,41,157,85,170,251,96,134,177,187,204,62,90,203,89,95,176,156,169,160,81,11,245,22,235,122,117,44,215,79,174,213,233,230,231,173,232,116,214,244,234,168,80,88,175]}),d=h.extend(null,{BLOCK:[3220,1468,2713,1235,3062,1890,2119,1549,2344,2936,1117,2583,1330,2470,1667,2249,2028,3780,481,4011,142,3098,831,3445,592,2517,1776,2234,1951,2827,1070,2660,1345,3177]}),v=h.extend(function(t){var e,i,n,s,r,o=t.value.length;for(this._badness=[],this._level=l.LEVELS[t.level],this._polynomial=[],this._value=t.value,this._version=0,this._stringBuffer=[];this._version<40&&(this._version++,n=4*(this._level-1)+16*(this._version-1),s=l.BLOCKS[n++],r=l.BLOCKS[n++],e=l.BLOCKS[n++],i=l.BLOCKS[n],n=e*(s+r)+r-3+(this._version<=9),!(o<=n)););this._dataBlock=e,this._eccBlock=i,this._neccBlock1=s,this._neccBlock2=r;var a=this.width=17+4*this._version;this.buffer=v._createArray(a*a),this._ecc=v._createArray(e+(e+i)*(s+r)+r),this._mask=v._createArray((a*(a+1)+1)/2),this._insertFinders(),this._insertAlignments(),this.buffer[8+a*(a-8)]=1,this._insertTimingGap(),this._reverseMask(),this._insertTimingRowAndColumn(),this._insertVersion(),this._syncMask(),this._convertBitStream(o),this._calculatePolynomial(),this._appendEccToData(),this._interleaveBlocks(),this._pack(),this._finish()},{_addAlignment:function(t,e){var i,n=this.buffer,s=this.width;for(n[t+s*e]=1,i=-2;i<2;i++)n[t+i+s*(e-2)]=1,n[t-2+s*(e+i+1)]=1,n[t+2+s*(e+i)]=1,n[t+i+1+s*(e+2)]=1;for(i=0;i<2;i++)this._setMask(t-1,e+i),this._setMask(t+1,e-i),this._setMask(t-i,e-1),this._setMask(t+i,e+1)},_appendData:function(t,e,i,n){var s,r,o,a=this._polynomial,h=this._stringBuffer;for(r=0;r<n;r++)h[i+r]=0;for(r=0;r<e;r++){if(255!==(s=_.LOG[h[t+r]^h[i]]))for(o=1;o<n;o++)h[i+o-1]=h[i+o]^_.EXPONENT[v._modN(s+a[n-o])];else for(o=i;o<i+n;o++)h[o]=h[o+1];h[i+n-1]=255===s?0:_.EXPONENT[v._modN(s+a[0])]}},_appendEccToData:function(){var t,e=0,i=this._dataBlock,n=this._calculateMaxLength(),s=this._eccBlock;for(t=0;t<this._neccBlock1;t++)this._appendData(e,i,n,s),e+=i,n+=s;for(t=0;t<this._neccBlock2;t++)this._appendData(e,i+1,n,s),e+=i+1,n+=s},_applyMask:function(t){var e,i,n,s,r=this.buffer,o=this.width;switch(t){case 0:for(s=0;s<o;s++)for(n=0;n<o;n++)n+s&1||this._isMasked(n,s)||(r[n+s*o]^=1);break;case 1:for(s=0;s<o;s++)for(n=0;n<o;n++)1&s||this._isMasked(n,s)||(r[n+s*o]^=1);break;case 2:for(s=0;s<o;s++)for(e=0,n=0;n<o;n++,e++)3===e&&(e=0),e||this._isMasked(n,s)||(r[n+s*o]^=1);break;case 3:for(i=0,s=0;s<o;s++,i++)for(3===i&&(i=0),e=i,n=0;n<o;n++,e++)3===e&&(e=0),e||this._isMasked(n,s)||(r[n+s*o]^=1);break;case 4:for(s=0;s<o;s++)for(e=0,i=s>>1&1,n=0;n<o;n++,e++)3===e&&(e=0,i=!i),i||this._isMasked(n,s)||(r[n+s*o]^=1);break;case 5:for(i=0,s=0;s<o;s++,i++)for(3===i&&(i=0),e=0,n=0;n<o;n++,e++)3===e&&(e=0),(n&s&1)+!(!e|!i)||this._isMasked(n,s)||(r[n+s*o]^=1);break;case 6:for(i=0,s=0;s<o;s++,i++)for(3===i&&(i=0),e=0,n=0;n<o;n++,e++)3===e&&(e=0),(n&s&1)+(e&&e===i)&1||this._isMasked(n,s)||(r[n+s*o]^=1);break;case 7:for(i=0,s=0;s<o;s++,i++)for(3===i&&(i=0),e=0,n=0;n<o;n++,e++)3===e&&(e=0),(e&&e===i)+(n+s&1)&1||this._isMasked(n,s)||(r[n+s*o]^=1)}},_calculateMaxLength:function(){return this._dataBlock*(this._neccBlock1+this._neccBlock2)+this._neccBlock2},_calculatePolynomial:function(){var t,e,i=this._eccBlock,n=this._polynomial;for(n[0]=1,t=0;t<i;t++){for(n[t+1]=1,e=t;e>0;e--)n[e]=n[e]?n[e-1]^_.EXPONENT[v._modN(_.LOG[n[e]]+t)]:n[e-1];n[0]=_.EXPONENT[v._modN(_.LOG[n[0]]+t)]}for(t=0;t<=i;t++)n[t]=_.LOG[n[t]]},_checkBadness:function(){var t,e,i,n,s,r=0,o=this._badness,a=this.buffer,h=this.width;for(s=0;s<h-1;s++)for(n=0;n<h-1;n++)(a[n+h*s]&&a[n+1+h*s]&&a[n+h*(s+1)]&&a[n+1+h*(s+1)]||!(a[n+h*s]||a[n+1+h*s]||a[n+h*(s+1)]||a[n+1+h*(s+1)]))&&(r+=v.N2);var f=0;for(s=0;s<h;s++){for(i=0,o[0]=0,t=0,n=0;n<h;n++)t===(e=a[n+h*s])?o[i]++:o[++i]=1,f+=(t=e)?1:-1;r+=this._getBadness(i)}f<0&&(f=-f);var c=0,u=f;for(u+=u<<2,u<<=1;u>h*h;)u-=h*h,c++;for(r+=c*v.N4,n=0;n<h;n++){for(i=0,o[0]=0,t=0,s=0;s<h;s++)t===(e=a[n+h*s])?o[i]++:o[++i]=1,t=e;r+=this._getBadness(i)}return r},_convertBitStream:function(t){var e,i,n=this._ecc,s=this._version;for(i=0;i<t;i++)n[i]=this._value.charCodeAt(i);var r=this._stringBuffer=n.slice(),o=this._calculateMaxLength();t>=o-2&&(t=o-2,s>9&&t--);var a=t;if(s>9){for(r[a+2]=0,r[a+3]=0;a--;)e=r[a],r[a+3]|=255&e<<4,r[a+2]=e>>4;r[2]|=255&t<<4,r[1]=t>>4,r[0]=64|t>>12}else{for(r[a+1]=0,r[a+2]=0;a--;)e=r[a],r[a+2]|=255&e<<4,r[a+1]=e>>4;r[1]|=255&t<<4,r[0]=64|t>>4}for(a=t+3-(s<10);a<o;)r[a++]=236,r[a++]=17},_getBadness:function(t){var e,i=0,n=this._badness;for(e=0;e<=t;e++)n[e]>=5&&(i+=v.N1+n[e]-5);for(e=3;e<t-1;e+=2)n[e-2]===n[e+2]&&n[e+2]===n[e-1]&&n[e-1]===n[e+1]&&3*n[e-1]===n[e]&&(0===n[e-3]||e+3>t||3*n[e-3]>=4*n[e]||3*n[e+3]>=4*n[e])&&(i+=v.N3);return i},_finish:function(){this._stringBuffer=this.buffer.slice();var t,e,i=0,n=3e4;for(e=0;e<8&&(this._applyMask(e),(t=this._checkBadness())<n&&(n=t,i=e),7!==i);e++)this.buffer=this._stringBuffer.slice();i!==e&&this._applyMask(i),n=l.FINAL_FORMAT[i+(this._level-1<<3)];var s=this.buffer,r=this.width;for(e=0;e<8;e++,n>>=1)1&n&&(s[r-1-e+8*r]=1,e<6?s[8+r*e]=1:s[8+r*(e+1)]=1);for(e=0;e<7;e++,n>>=1)1&n&&(s[8+r*(r-7+e)]=1,e?s[6-e+8*r]=1:s[7+8*r]=1)},_interleaveBlocks:function(){var t,e,i=this._dataBlock,n=this._ecc,s=this._eccBlock,r=0,o=this._calculateMaxLength(),a=this._neccBlock1,h=this._neccBlock2,f=this._stringBuffer;for(t=0;t<i;t++){for(e=0;e<a;e++)n[r++]=f[t+e*i];for(e=0;e<h;e++)n[r++]=f[a*i+t+e*(i+1)]}for(e=0;e<h;e++)n[r++]=f[a*i+t+e*(i+1)];for(t=0;t<s;t++)for(e=0;e<a+h;e++)n[r++]=f[o+t+e*s];this._stringBuffer=n},_insertAlignments:function(){var t,e,i,n=this._version,s=this.width;if(n>1)for(t=u.BLOCK[n],i=s-7;;){for(e=s-7;e>t-3&&(this._addAlignment(e,i),!(e<t));)e-=t;if(i<=t+9)break;i-=t,this._addAlignment(6,i),this._addAlignment(i,6)}},_insertFinders:function(){var t,e,i,n,s=this.buffer,r=this.width;for(t=0;t<3;t++){for(e=0,n=0,1===t&&(e=r-7),2===t&&(n=r-7),s[n+3+r*(e+3)]=1,i=0;i<6;i++)s[n+i+r*e]=1,s[n+r*(e+i+1)]=1,s[n+6+r*(e+i)]=1,s[n+i+1+r*(e+6)]=1;for(i=1;i<5;i++)this._setMask(n+i,e+1),this._setMask(n+1,e+i+1),this._setMask(n+5,e+i),this._setMask(n+i+1,e+5);for(i=2;i<4;i++)s[n+i+r*(e+2)]=1,s[n+2+r*(e+i+1)]=1,s[n+4+r*(e+i)]=1,s[n+i+1+r*(e+4)]=1}},_insertTimingGap:function(){var t,e,i=this.width;for(e=0;e<7;e++)this._setMask(7,e),this._setMask(i-8,e),this._setMask(7,e+i-7);for(t=0;t<8;t++)this._setMask(t,7),this._setMask(t+i-8,7),this._setMask(t,i-8)},_insertTimingRowAndColumn:function(){var t,e=this.buffer,i=this.width;for(t=0;t<i-14;t++)1&t?(this._setMask(8+t,6),this._setMask(6,8+t)):(e[8+t+6*i]=1,e[6+i*(8+t)]=1)},_insertVersion:function(){var t,e,i,n,s=this.buffer,r=this._version,o=this.width;if(r>6)for(t=d.BLOCK[r-7],e=17,i=0;i<6;i++)for(n=0;n<3;n++,e--)1&(e>11?r>>e-12:t>>e)?(s[5-i+o*(2-n+o-11)]=1,s[2-n+o-11+o*(5-i)]=1):(this._setMask(5-i,2-n+o-11),this._setMask(2-n+o-11,5-i))},_isMasked:function(t,e){var i=v._getMaskBit(t,e);return 1===this._mask[i]},_pack:function(){var t,e,i,n=1,s=1,r=this.width,o=r-1,a=r-1,h=(this._dataBlock+this._eccBlock)*(this._neccBlock1+this._neccBlock2)+this._neccBlock2;for(e=0;e<h;e++)for(t=this._stringBuffer[e],i=0;i<8;i++,t<<=1){128&t&&(this.buffer[o+r*a]=1);do{s?o--:(o++,n?0!==a?a--:(n=!n,6===(o-=2)&&(o--,a=9)):a!==r-1?a++:(n=!n,6===(o-=2)&&(o--,a-=8))),s=!s}while(this._isMasked(o,a))}},_reverseMask:function(){var t,e,i=this.width;for(t=0;t<9;t++)this._setMask(t,8);for(t=0;t<8;t++)this._setMask(t+i-8,8),this._setMask(8,t);for(e=0;e<7;e++)this._setMask(8,e+i-7)},_setMask:function(t,e){var i=v._getMaskBit(t,e);this._mask[i]=1},_syncMask:function(){var t,e,i=this.width;for(e=0;e<i;e++)for(t=0;t<=e;t++)this.buffer[t+i*e]&&this._setMask(t,e)}},{_createArray:function(t){var e,i=[];for(e=0;e<t;e++)i[e]=0;return i},_getMaskBit:function(t,e){var i;return t>e&&(i=t,t=e,e=i),i=e,i+=e*e,i>>=1,i+=t},_modN:function(t){for(;t>=255;)t=((t-=255)>>8)+(255&t);return t},N1:3,N2:3,N3:40,N4:10}),p=v,m=f.extend({draw:function(){this.element.src=this.qrious.toDataURL()},reset:function(){this.element.src=""},resize:function(){var t=this.element;t.width=t.height=this.qrious.size}}),g=h.extend(function(t,e,i,n){this.name=t,this.modifiable=Boolean(e),this.defaultValue=i,this._valueTransformer=n},{transform:function(t){var e=this._valueTransformer;return"function"==typeof e?e(t,this):t}}),k=h.extend(null,{abs:function(t){return null!=t?Math.abs(t):null},hasOwn:function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},noop:function(){},toUpperCase:function(t){return null!=t?t.toUpperCase():null}}),w=h.extend(function(t){this.options={},t.forEach(function(t){this.options[t.name]=t},this)},{exists:function(t){return null!=this.options[t]},get:function(t,e){return w._get(this.options[t],e)},getAll:function(t){var e,i=this.options,n={};for(e in i)k.hasOwn(i,e)&&(n[e]=w._get(i[e],t));return n},init:function(t,e,i){"function"!=typeof i&&(i=k.noop);var n,s;for(n in this.options)k.hasOwn(this.options,n)&&(s=this.options[n],w._set(s,s.defaultValue,e),w._createAccessor(s,e,i));this._setAll(t,e,!0)},set:function(t,e,i){return this._set(t,e,i)},setAll:function(t,e){return this._setAll(t,e)},_set:function(t,e,i,n){var s=this.options[t];if(!s)throw new Error("Invalid option: "+t);if(!s.modifiable&&!n)throw new Error("Option cannot be modified: "+t);return w._set(s,e,i)},_setAll:function(t,e,i){if(!t)return!1;var n,s=!1;for(n in t)k.hasOwn(t,n)&&this._set(n,t[n],e,i)&&(s=!0);return s}},{_createAccessor:function(t,e,i){var n={get:function(){return w._get(t,e)}};t.modifiable&&(n.set=function(n){w._set(t,n,e)&&i(n,t)}),Object.defineProperty(e,t.name,n)},_get:function(t,e){return e["_"+t.name]},_set:function(t,e,i){var n="_"+t.name,s=i[n],r=t.transform(null!=e?e:t.defaultValue);return i[n]=r,r!==s}}),M=w,b=h.extend(function(){this._services={}},{getService:function(t){var e=this._services[t];if(!e)throw new Error("Service is not being managed with name: "+t);return e},setService:function(t,e){if(this._services[t])throw new Error("Service is already managed with name: "+t);e&&(this._services[t]=e)}}),B=new M([new g("background",!0,"white"),new g("backgroundAlpha",!0,1,k.abs),new g("element"),new g("foreground",!0,"black"),new g("foregroundAlpha",!0,1,k.abs),new g("level",!0,"L",k.toUpperCase),new g("mime",!0,"image/png"),new g("padding",!0,null,k.abs),new g("size",!0,100,k.abs),new g("value",!0,"")]),y=new b,O=h.extend(function(t){B.init(t,this,this.update.bind(this));var e=B.get("element",this),i=y.getService("element"),n=e&&i.isCanvas(e)?e:i.createCanvas(),s=e&&i.isImage(e)?e:i.createImage();this._canvasRenderer=new c(this,n,!0),this._imageRenderer=new m(this,s,s===e),this.update()},{get:function(){return B.getAll(this)},set:function(t){B.setAll(t,this)&&this.update()},toDataURL:function(t){return this.canvas.toDataURL(t||this.mime)},update:function(){var t=new p({level:this.level,value:this.value});this._canvasRenderer.render(t),this._imageRenderer.render(t)}},{use:function(t){y.setService(t.getName(),t)}});Object.defineProperties(O.prototype,{canvas:{get:function(){return this._canvasRenderer.getElement()}},image:{get:function(){return this._imageRenderer.getElement()}}});var A=O,L=h.extend({getName:function(){}}).extend({createCanvas:function(){},createImage:function(){},getName:function(){return"element"},isCanvas:function(t){},isImage:function(t){}}).extend({createCanvas:function(){return document.createElement("canvas")},createImage:function(){return document.createElement("img")},isCanvas:function(t){return t instanceof HTMLCanvasElement},isImage:function(t){return t instanceof HTMLImageElement}});return A.use(new L),A});
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      color: #1a202c;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    header svg { flex-shrink: 0; }
+    header h1 { font-size: 1.6rem; font-weight: 700; }
+    header p { font-size: 0.9rem; opacity: 0.85; margin-top: 2px; }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 20px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (max-width: 820px) {
+      .container { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+
+    .card h2 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #4a5568;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-grid .full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #718096;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 5px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: #2d3748;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: #fafafa;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
+      background: white;
+    }
+
+    textarea { resize: vertical; min-height: 70px; }
+
+    .logo-upload {
+      border: 2px dashed #cbd5e0;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .logo-upload:hover { border-color: #667eea; background: #f7f8ff; }
+    .logo-upload input { display: none; }
+
+    .logo-upload .preview-img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #667eea;
+      display: none;
+      margin: 0 auto 8px;
+    }
+
+    .logo-upload .upload-icon { color: #a0aec0; margin-bottom: 8px; }
+    .logo-upload p { font-size: 0.85rem; color: #718096; }
+    .logo-upload .remove-btn {
+      display: none;
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #fc8181;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 24px;
+    }
+
+    .btn-generate {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      letter-spacing: 0.03em;
+    }
+
+    .btn-generate:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+    }
+
+    .btn-generate:active { transform: translateY(0); }
+
+    /* Right column */
+    .right-col { display: flex; flex-direction: column; gap: 20px; }
+
+    /* QR výstup */
+    .qr-output { text-align: center; }
+
+    #qr-container {
+      display: inline-block;
+      padding: 16px;
+      background: white;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+      position: relative;
+    }
+
+    #qr-container canvas, #qr-container img { display: block; }
+
+    .qr-placeholder {
+      width: 200px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      color: #cbd5e0;
+    }
+
+    .qr-placeholder p { font-size: 0.85rem; text-align: center; }
+
+    .qr-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-action {
+      padding: 9px 18px;
+      border-radius: 8px;
+      border: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-download {
+      background: #48bb78;
+      color: white;
+    }
+    .btn-download:hover { background: #38a169; }
+
+    .btn-print {
+      background: #4299e1;
+      color: white;
+    }
+    .btn-print:hover { background: #3182ce; }
+
+    .btn-copy {
+      background: #ed8936;
+      color: white;
+    }
+    .btn-copy:hover { background: #dd6b20; }
+
+    /* Vizitka náhled */
+    .business-card-preview {
+      background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+      border-radius: 14px;
+      padding: 24px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      min-height: 160px;
+    }
+
+    .business-card-preview::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+
+    .bc-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .bc-company {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 4px;
+    }
+
+    .bc-position {
+      font-size: 0.8rem;
+      opacity: 0.6;
+      margin-bottom: 16px;
+    }
+
+    .bc-contacts { display: flex; flex-direction: column; gap: 5px; }
+
+    .bc-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      opacity: 0.9;
+    }
+
+    .bc-contact-item svg { flex-shrink: 0; opacity: 0.7; }
+
+    .bc-empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: 120px;
+      opacity: 0.4;
+      font-size: 0.9rem;
+    }
+
+    /* QR barvy */
+    .color-section {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .color-field { display: flex; align-items: center; gap: 8px; }
+    .color-field label { margin: 0; text-transform: none; font-size: 0.85rem; }
+    .color-field input[type="color"] {
+      width: 36px;
+      height: 36px;
+      padding: 2px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* Tisk */
+    @media print {
+      body * { visibility: hidden; }
+      #print-area, #print-area * { visibility: visible; }
+      #print-area {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    #print-area {
+      display: none;
+    }
+
+    /* success toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #2d3748;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      transition: transform 0.3s;
+      z-index: 999;
+      pointer-events: none;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    .size-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .size-row label { margin: 0; }
+    .size-row input[type="range"] {
+      flex: 1;
+      padding: 0;
+      border: none;
+      background: transparent;
+      accent-color: #667eea;
+    }
+    .size-row span { font-size: 0.85rem; color: #718096; min-width: 40px; }
+
+    /* Galerie uložených QR kódů */
+    #gallery-section {
+      max-width: 1100px;
+      margin: 0 auto 40px;
+      padding: 0 20px;
+    }
+
+    #gallery-section .card h2 { margin-bottom: 16px; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .gallery-item {
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fafafa;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+
+    .gallery-item:hover {
+      box-shadow: 0 4px 16px rgba(102,126,234,0.18);
+      transform: translateY(-2px);
+    }
+
+    .gallery-item-qr {
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+
+    .gallery-item-qr img {
+      width: 100%;
+      max-width: 140px;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+    }
+
+    .gallery-item-info {
+      padding: 10px 12px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .gallery-item-name {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: #2d3748;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .gallery-item-company {
+      font-size: 0.78rem;
+      color: #718096;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+
+    .gallery-item-date {
+      font-size: 0.72rem;
+      color: #a0aec0;
+      margin-top: 4px;
+    }
+
+    .gallery-item-actions {
+      display: flex;
+      gap: 6px;
+      padding: 8px 12px;
+      background: #f7f8ff;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .btn-gallery-load {
+      flex: 1;
+      padding: 5px 8px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-gallery-load:hover { background: #5a6fd6; }
+
+    .btn-gallery-delete {
+      padding: 5px 8px;
+      background: #fed7d7;
+      color: #c53030;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-gallery-delete:hover { background: #feb2b2; }
+
+    .btn-save {
+      background: #9f7aea;
+      color: white;
+    }
+    .btn-save:hover { background: #805ad5; }
+
+    .gallery-empty {
+      text-align: center;
+      color: #a0aec0;
+      padding: 32px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+    <rect width="40" height="40" rx="10" fill="rgba(255,255,255,0.2)"/>
+    <rect x="8" y="8" width="10" height="10" rx="2" fill="white"/>
+    <rect x="10" y="10" width="6" height="6" rx="1" fill="#764ba2"/>
+    <rect x="22" y="8" width="10" height="10" rx="2" fill="white"/>
+    <rect x="24" y="10" width="6" height="6" rx="1" fill="#764ba2"/>
+    <rect x="8" y="22" width="10" height="10" rx="2" fill="white"/>
+    <rect x="10" y="24" width="6" height="6" rx="1" fill="#764ba2"/>
+    <rect x="22" y="22" width="4" height="4" fill="white"/>
+    <rect x="28" y="22" width="4" height="4" fill="white"/>
+    <rect x="22" y="28" width="4" height="4" fill="white"/>
+    <rect x="28" y="28" width="4" height="4" fill="white"/>
+  </svg>
+  <div>
+    <h1>QR Generátor Vizitek</h1>
+    <p>Vyplň údaje → vygeneruj QR kód s vCard → stáhni nebo tiskni</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- LEVÝ SLOUPEC: formulář -->
+  <div style="display:flex;flex-direction:column;gap:20px;">
+
+    <div class="card">
+      <h2>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Osobní údaje
+      </h2>
+      <div class="form-grid">
+        <div>
+          <label>Jméno</label>
+          <input type="text" id="firstName" placeholder="Jana">
+        </div>
+        <div>
+          <label>Příjmení</label>
+          <input type="text" id="lastName" placeholder="Nováková">
+        </div>
+        <div>
+          <label>Titul před jménem</label>
+          <input type="text" id="titleBefore" placeholder="Ing.">
+        </div>
+        <div>
+          <label>Titul za jménem</label>
+          <input type="text" id="titleAfter" placeholder="MBA">
+        </div>
+        <div>
+          <label>Pozice / funkce</label>
+          <input type="text" id="position" placeholder="Obchodní ředitelka">
+        </div>
+        <div>
+          <label>Firma / organizace</label>
+          <input type="text" id="company" placeholder="ABC s.r.o.">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Kontaktní údaje
+      </h2>
+      <div class="form-grid">
+        <div>
+          <label>Mobil</label>
+          <input type="tel" id="mobile" placeholder="+420 777 123 456">
+        </div>
+        <div>
+          <label>Telefon (pevná linka)</label>
+          <input type="tel" id="phone" placeholder="+420 234 567 890">
+        </div>
+        <div class="full">
+          <label>E-mail</label>
+          <input type="email" id="email" placeholder="jana.novakova@firma.cz">
+        </div>
+        <div class="full">
+          <label>Webová stránka</label>
+          <input type="url" id="website" placeholder="https://www.firma.cz">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Adresa
+      </h2>
+      <div class="form-grid">
+        <div class="full">
+          <label>Ulice a číslo popisné</label>
+          <input type="text" id="street" placeholder="Václavské náměstí 1">
+        </div>
+        <div>
+          <label>Město</label>
+          <input type="text" id="city" placeholder="Praha">
+        </div>
+        <div>
+          <label>PSČ</label>
+          <input type="text" id="zip" placeholder="110 00">
+        </div>
+        <div>
+          <label>Kraj / stát</label>
+          <input type="text" id="state" placeholder="Praha">
+        </div>
+        <div>
+          <label>Země</label>
+          <input type="text" id="country" placeholder="Česká republika">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        Sociální sítě (volitelné)
+      </h2>
+      <div class="form-grid">
+        <div>
+          <label>LinkedIn</label>
+          <input type="url" id="linkedin" placeholder="https://linkedin.com/in/...">
+        </div>
+        <div>
+          <label>Instagram</label>
+          <input type="url" id="instagram" placeholder="https://instagram.com/...">
+        </div>
+        <div class="full">
+          <label>Poznámka / bio</label>
+          <textarea id="note" placeholder="Stručný popis nebo slogan..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="3"/><polyline points="3 9 21 9"/><path d="M9 21V9"/></svg>
+        Nastavení QR kódu
+      </h2>
+
+      <div style="margin-bottom:16px;">
+        <label>Barvy QR kódu</label>
+        <div class="color-section">
+          <div class="color-field">
+            <input type="color" id="qrColorDark" value="#1a1a2e">
+            <label>Barva kódu</label>
+          </div>
+          <div class="color-field">
+            <input type="color" id="qrColorLight" value="#ffffff">
+            <label>Pozadí</label>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label>Velikost QR kódu</label>
+        <div class="size-row">
+          <span>150px</span>
+          <input type="range" id="qrSize" min="150" max="500" step="10" value="240">
+          <span id="qrSizeLabel">240px</span>
+        </div>
+      </div>
+
+      <div>
+        <label>Logo / foto ve středu QR kódu (volitelné)</label>
+        <div class="logo-upload" id="logoUpload" onclick="document.getElementById('logoInput').click()">
+          <input type="file" id="logoInput" accept="image/*">
+          <img id="logoPreview" class="preview-img" alt="logo">
+          <div class="upload-icon" id="uploadIcon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <p id="uploadText">Klikni pro nahrání obrázku</p>
+          <button class="remove-btn" id="removeLogoBtn" onclick="removeLogo(event)">×</button>
+        </div>
+      </div>
+
+      <button class="btn-generate" onclick="generate()">
+        ⚡ Vygenerovat QR kód
+      </button>
+    </div>
+
+  </div>
+
+  <!-- PRAVÝ SLOUPEC: výstup -->
+  <div class="right-col">
+
+    <div class="card qr-output">
+      <h2 style="justify-content:center;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        QR kód
+      </h2>
+
+      <div id="qr-container">
+        <div class="qr-placeholder" id="qrPlaceholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          <p>Vyplň údaje a klikni na Vygenerovat</p>
+        </div>
+        <div id="qrcode" style="display:none;"></div>
+      </div>
+
+      <div class="qr-actions" id="qrActions" style="display:none;">
+        <button class="btn-action btn-download" onclick="downloadQR()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Stáhnout PNG
+        </button>
+        <button class="btn-action btn-print" onclick="printCard()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Tisk vizitky
+        </button>
+        <button class="btn-action btn-copy" onclick="copyVCard()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Kopírovat vCard
+        </button>
+        <button class="btn-action btn-save" onclick="saveToGallery()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Uložit do galerie
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        Náhled vizitky
+      </h2>
+      <div class="business-card-preview" id="cardPreview">
+        <div class="bc-empty" id="cardEmpty">Vyplň jméno pro náhled</div>
+        <div id="cardContent" style="display:none;">
+          <div class="bc-name" id="bcName"></div>
+          <div class="bc-company" id="bcCompany"></div>
+          <div class="bc-position" id="bcPosition"></div>
+          <div class="bc-contacts" id="bcContacts"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Galerie uložených QR kódů -->
+<div id="gallery-section" style="display:none;">
+  <div class="card">
+    <h2>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Uložené QR kódy
+    </h2>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </div>
+</div>
+
+<!-- Oblast pro tisk -->
+<div id="print-area">
+  <div id="print-content"></div>
+</div>
+
+<!-- Toast notifikace -->
+<div class="toast" id="toast"></div>
+
+<script>
+  let logoDataUrl = null;
+  let currentVCard = '';
+
+  // Live náhled vizitky
+  const liveFields = ['firstName','lastName','titleBefore','titleAfter','position','company','mobile','phone','email','website'];
+  liveFields.forEach(id => {
+    document.getElementById(id).addEventListener('input', updatePreview);
+  });
+
+  function updatePreview() {
+    const fn = document.getElementById('firstName').value.trim();
+    const ln = document.getElementById('lastName').value.trim();
+    const tb = document.getElementById('titleBefore').value.trim();
+    const ta = document.getElementById('titleAfter').value.trim();
+    const fullName = [tb, fn, ln].filter(Boolean).join(' ') + (ta ? ', ' + ta : '');
+
+    if (!fn && !ln) {
+      document.getElementById('cardEmpty').style.display = 'flex';
+      document.getElementById('cardContent').style.display = 'none';
+      return;
+    }
+
+    document.getElementById('cardEmpty').style.display = 'none';
+    document.getElementById('cardContent').style.display = 'block';
+
+    document.getElementById('bcName').textContent = fullName || '—';
+    document.getElementById('bcCompany').textContent = document.getElementById('company').value;
+    document.getElementById('bcPosition').textContent = document.getElementById('position').value;
+
+    const contacts = [];
+    const mob = document.getElementById('mobile').value;
+    const tel = document.getElementById('phone').value;
+    const mail = document.getElementById('email').value;
+    const web = document.getElementById('website').value;
+
+    if (mob) contacts.push(`<div class="bc-contact-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>${mob}</div>`);
+    if (tel && tel !== mob) contacts.push(`<div class="bc-contact-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>${tel}</div>`);
+    if (mail) contacts.push(`<div class="bc-contact-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>${mail}</div>`);
+    if (web) contacts.push(`<div class="bc-contact-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>${web}</div>`);
+
+    document.getElementById('bcContacts').innerHTML = contacts.join('');
+  }
+
+  // Slider pro velikost
+  document.getElementById('qrSize').addEventListener('input', function() {
+    document.getElementById('qrSizeLabel').textContent = this.value + 'px';
+  });
+
+  // Logo upload
+  document.getElementById('logoInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      logoDataUrl = ev.target.result;
+      const preview = document.getElementById('logoPreview');
+      preview.src = logoDataUrl;
+      preview.style.display = 'block';
+      document.getElementById('uploadIcon').style.display = 'none';
+      document.getElementById('uploadText').textContent = file.name;
+      document.getElementById('removeLogoBtn').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function removeLogo(e) {
+    e.stopPropagation();
+    logoDataUrl = null;
+    document.getElementById('logoPreview').style.display = 'none';
+    document.getElementById('uploadIcon').style.display = 'block';
+    document.getElementById('uploadText').textContent = 'Klikni pro nahrání obrázku';
+    document.getElementById('removeLogoBtn').style.display = 'none';
+    document.getElementById('logoInput').value = '';
+  }
+
+  function buildVCard() {
+    const fn = document.getElementById('firstName').value.trim();
+    const ln = document.getElementById('lastName').value.trim();
+    const tb = document.getElementById('titleBefore').value.trim();
+    const ta = document.getElementById('titleAfter').value.trim();
+    const pos = document.getElementById('position').value.trim();
+    const company = document.getElementById('company').value.trim();
+    const mobile = document.getElementById('mobile').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const website = document.getElementById('website').value.trim();
+    const street = document.getElementById('street').value.trim();
+    const city = document.getElementById('city').value.trim();
+    const zip = document.getElementById('zip').value.trim();
+    const state = document.getElementById('state').value.trim();
+    const country = document.getElementById('country').value.trim();
+    const linkedin = document.getElementById('linkedin').value.trim();
+    const instagram = document.getElementById('instagram').value.trim();
+    const note = document.getElementById('note').value.trim();
+
+    const fullName = [tb, fn, ln].filter(Boolean).join(' ') + (ta ? ', ' + ta : '');
+
+    let vcard = 'BEGIN:VCARD\nVERSION:3.0\n';
+    vcard += `N:${ln};${fn};;${tb};${ta}\n`;
+    vcard += `FN:${fullName}\n`;
+    if (company) vcard += `ORG:${company}\n`;
+    if (pos) vcard += `TITLE:${pos}\n`;
+    if (mobile) vcard += `TEL;TYPE=CELL:${mobile}\n`;
+    if (phone) vcard += `TEL;TYPE=WORK:${phone}\n`;
+    if (email) vcard += `EMAIL:${email}\n`;
+    if (website) vcard += `URL:${website}\n`;
+    if (street || city) {
+      vcard += `ADR;TYPE=WORK:;;${street};${city};${state};${zip};${country}\n`;
+    }
+    if (linkedin) vcard += `X-SOCIALPROFILE;TYPE=linkedin:${linkedin}\n`;
+    if (instagram) vcard += `X-SOCIALPROFILE;TYPE=instagram:${instagram}\n`;
+    if (note) vcard += `NOTE:${note}\n`;
+    vcard += 'END:VCARD';
+
+    return vcard;
+  }
+
+  function generate() {
+    const fn = document.getElementById('firstName').value.trim();
+    const ln = document.getElementById('lastName').value.trim();
+    if (!fn && !ln) { showToast('Zadej alespoň jméno nebo příjmení'); return; }
+
+    currentVCard = buildVCard();
+
+    const size = parseInt(document.getElementById('qrSize').value);
+    const dark = document.getElementById('qrColorDark').value;
+    const light = document.getElementById('qrColorLight').value;
+
+    document.getElementById('qrcode').innerHTML = '';
+    document.getElementById('qrPlaceholder').style.display = 'none';
+    document.getElementById('qrcode').style.display = 'block';
+
+    try {
+      // Encode as UTF-8 bytes so Czech diacritics survive QRious's Latin-1 encoding
+      const vcardUtf8 = unescape(encodeURIComponent(currentVCard));
+      const qr = new QRious({
+        value: vcardUtf8,
+        size: size,
+        level: logoDataUrl ? 'H' : 'M',
+        foreground: dark,
+        background: light
+      });
+
+      const canvas = qr.canvas;
+      document.getElementById('qrcode').appendChild(canvas);
+
+      if (logoDataUrl) overlayLogo(canvas, size);
+      document.getElementById('qrActions').style.display = 'flex';
+      showToast('✓ QR kód vygenerován!');
+    } catch(err) {
+      showToast('Chyba: ' + err.message);
+    }
+  }
+
+  function overlayLogo(canvas, size) {
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const logoSize = size * 0.22;
+    const x = (size - logoSize) / 2;
+    const y = (size - logoSize) / 2;
+    const radius = logoSize / 2;
+
+    const img = new Image();
+    img.onload = function() {
+      // Bílý kruh pozadí
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, radius + 6, 0, 2 * Math.PI);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+
+      // Logo v kruhu
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, radius, 0, 2 * Math.PI);
+      ctx.clip();
+      ctx.drawImage(img, x, y, logoSize, logoSize);
+      ctx.restore();
+    };
+    img.src = logoDataUrl;
+  }
+
+  function downloadQR() {
+    const canvas = document.querySelector('#qrcode canvas');
+    if (!canvas) return;
+
+    const fn = document.getElementById('firstName').value.trim();
+    const ln = document.getElementById('lastName').value.trim();
+
+    const link = document.createElement('a');
+    link.download = `qr-vizitka-${[fn, ln].filter(Boolean).join('-').toLowerCase() || 'kontakt'}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function printCard() {
+    const canvas = document.querySelector('#qrcode canvas');
+    if (!canvas) { showToast('Nejdřív vygeneruj QR kód'); return; }
+
+    const fn = document.getElementById('firstName').value.trim();
+    const ln = document.getElementById('lastName').value.trim();
+    const tb = document.getElementById('titleBefore').value.trim();
+    const ta = document.getElementById('titleAfter').value.trim();
+    const pos = document.getElementById('position').value.trim();
+    const company = document.getElementById('company').value.trim();
+    const mobile = document.getElementById('mobile').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const website = document.getElementById('website').value.trim();
+    const fullName = [tb, fn, ln].filter(Boolean).join(' ') + (ta ? ', ' + ta : '');
+
+    const qrDataUrl = canvas.toDataURL('image/png');
+
+    const printWin = window.open('', '_blank');
+    printWin.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>Vizitka – ${fullName}</title>
+        <style>
+          @page { size: 90mm 55mm; margin: 0; }
+          body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+          .card {
+            width: 90mm; height: 55mm;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 6mm;
+            gap: 5mm;
+            box-sizing: border-box;
+          }
+          .info { flex: 1; }
+          .name { font-size: 13pt; font-weight: 700; margin-bottom: 1mm; }
+          .company { font-size: 8.5pt; opacity: 0.75; margin-bottom: 0.5mm; }
+          .pos { font-size: 7.5pt; opacity: 0.55; margin-bottom: 3mm; }
+          .contact { font-size: 7pt; opacity: 0.85; margin-bottom: 1mm; }
+          .qr-wrap { flex-shrink: 0; }
+          .qr-wrap img { width: 30mm; height: 30mm; border-radius: 3mm; }
+          .qr-label { font-size: 5.5pt; opacity: 0.5; text-align: center; margin-top: 1mm; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <div class="info">
+            <div class="name">${fullName || '—'}</div>
+            <div class="company">${company}</div>
+            <div class="pos">${pos}</div>
+            ${mobile ? `<div class="contact">📞 ${mobile}</div>` : ''}
+            ${email ? `<div class="contact">✉ ${email}</div>` : ''}
+            ${website ? `<div class="contact">🌐 ${website}</div>` : ''}
+          </div>
+          <div class="qr-wrap">
+            <img src="${qrDataUrl}" alt="QR">
+            <div class="qr-label">Naskenuj pro kontakt</div>
+          </div>
+        </div>
+      </body>
+      </html>
+    `);
+    printWin.document.close();
+    setTimeout(() => { printWin.print(); }, 400);
+  }
+
+  function copyVCard() {
+    if (!currentVCard) { showToast('Nejdřív vygeneruj QR kód'); return; }
+    navigator.clipboard.writeText(currentVCard).then(() => {
+      showToast('✓ vCard zkopírována do schránky');
+    }).catch(() => {
+      showToast('Kopírování selhalo — zkus jiný prohlížeč');
+    });
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // Enter = generovat
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && e.ctrlKey) generate();
+  });
+
+  // --- GALERIE ---
+
+  const GALLERY_KEY = 'qr-gallery';
+  const FORM_FIELDS = ['firstName','lastName','titleBefore','titleAfter','position','company',
+    'mobile','phone','email','website','street','city','zip','state','country',
+    'linkedin','instagram','note','qrColorDark','qrColorLight','qrSize'];
+
+  function saveToGallery() {
+    const canvas = document.querySelector('#qrcode canvas');
+    if (!canvas) { showToast('Nejdřív vygeneruj QR kód'); return; }
+
+    const fn = document.getElementById('firstName').value.trim();
+    const ln = document.getElementById('lastName').value.trim();
+    const formData = {};
+    FORM_FIELDS.forEach(id => { formData[id] = document.getElementById(id).value; });
+
+    const entry = {
+      id: Date.now().toString(),
+      name: [fn, ln].filter(Boolean).join(' ') || 'Bez jména',
+      company: document.getElementById('company').value.trim(),
+      qrDataUrl: canvas.toDataURL('image/png'),
+      formData,
+      logoDataUrl: logoDataUrl || null,
+      vcard: currentVCard,
+      savedAt: new Date().toISOString()
+    };
+
+    const gallery = loadGalleryData();
+    gallery.unshift(entry);
+    localStorage.setItem(GALLERY_KEY, JSON.stringify(gallery));
+    renderGallery();
+    showToast('✓ Uloženo do galerie');
+  }
+
+  function loadGalleryData() {
+    try { return JSON.parse(localStorage.getItem(GALLERY_KEY) || '[]'); }
+    catch { return []; }
+  }
+
+  function loadGallery() {
+    renderGallery();
+  }
+
+  function renderGallery() {
+    const gallery = loadGalleryData();
+    const section = document.getElementById('gallery-section');
+    const grid = document.getElementById('galleryGrid');
+
+    if (gallery.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = 'block';
+    grid.innerHTML = gallery.map(entry => {
+      const date = new Date(entry.savedAt).toLocaleDateString('cs-CZ', { day:'numeric', month:'short', year:'numeric' });
+      return `
+        <div class="gallery-item">
+          <div class="gallery-item-qr">
+            <img src="${entry.qrDataUrl}" alt="QR kód ${entry.name}">
+          </div>
+          <div class="gallery-item-info">
+            <div class="gallery-item-name">${entry.name}</div>
+            ${entry.company ? `<div class="gallery-item-company">${entry.company}</div>` : ''}
+            <div class="gallery-item-date">${date}</div>
+          </div>
+          <div class="gallery-item-actions">
+            <button class="btn-gallery-load" onclick="loadEntry('${entry.id}')">Načíst</button>
+            <button class="btn-gallery-delete" onclick="deleteEntry('${entry.id}')">Smazat</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function loadEntry(id) {
+    const gallery = loadGalleryData();
+    const entry = gallery.find(e => e.id === id);
+    if (!entry) return;
+
+    FORM_FIELDS.forEach(fieldId => {
+      const el = document.getElementById(fieldId);
+      if (el) el.value = entry.formData[fieldId] || '';
+    });
+
+    logoDataUrl = entry.logoDataUrl || null;
+    if (logoDataUrl) {
+      const preview = document.getElementById('logoPreview');
+      preview.src = logoDataUrl;
+      preview.style.display = 'block';
+      document.getElementById('uploadIcon').style.display = 'none';
+      document.getElementById('uploadText').textContent = 'Logo načteno';
+      document.getElementById('removeLogoBtn').style.display = 'block';
+    } else {
+      removeLogo({ stopPropagation: () => {} });
+    }
+
+    document.getElementById('qrSizeLabel').textContent = entry.formData.qrSize + 'px';
+    updatePreview();
+    generate();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    showToast('✓ Kontakt načten do formuláře');
+  }
+
+  function deleteEntry(id) {
+    const gallery = loadGalleryData().filter(e => e.id !== id);
+    localStorage.setItem(GALLERY_KEY, JSON.stringify(gallery));
+    renderGallery();
+    showToast('Záznam smazán');
+  }
+
+  // Načti galerii při startu
+  loadGallery();
+</script>
+
+</body>
+</html>
