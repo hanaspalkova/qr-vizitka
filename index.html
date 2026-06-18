@@ -1107,8 +1107,8 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
       const previewImg = new Image();
       previewImg.src = canvas.toDataURL('image/png');
       bcQr.className = '';
-      bcQr.style.cssText = 'background:white;border-radius:8px;padding:8px;display:flex;align-items:center;justify-content:center;width:175px;height:175px;box-sizing:border-box;flex-shrink:0;';
-      previewImg.style.cssText = 'width:159px;height:159px;display:block;border-radius:4px;';
+      bcQr.style.cssText = '';
+      previewImg.style.cssText = 'width:175px;height:175px;display:block;border-radius:8px;background:white;padding:8px;box-sizing:border-box;';
       bcQr.innerHTML = '';
       bcQr.appendChild(previewImg);
 
