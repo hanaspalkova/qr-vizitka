@@ -860,14 +860,6 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
         </div>
       </div>
 
-      <div style="margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-        <div class="color-field">
-          <input type="color" id="cardTextColorPicker" value="#ffffff" oninput="applyTextColor(this.value)">
-          <label style="margin:0;font-size:0.85rem;">Barva písma</label>
-        </div>
-        <button onclick="resetTextColor()" style="padding:5px 12px;background:#e2e8f0;border:none;border-radius:6px;font-size:0.8rem;cursor:pointer;color:#4a5568;font-weight:600;">Dle tématu</button>
-      </div>
-
       <div class="card-themes" id="cardThemes"></div>
 
       <div style="margin-top:18px;">
@@ -1185,7 +1177,7 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
     const cardBg = customBgDataUrl
       ? `url('${customBgDataUrl}') center/cover no-repeat`
       : theme.bg;
-    const cardColor = customCardTextColor || (customBgDataUrl ? 'white' : theme.text);
+    const cardColor = customBgDataUrl ? 'white' : theme.text;
 
     // Vygeneruj QR v tiskové kvalitě (600px) nezávisle na slideru
     const dark = document.getElementById('qrColorDark').value;
@@ -1396,43 +1388,13 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
   ];
 
   let activeTheme = parseInt(localStorage.getItem('qr-card-theme') || '0');
-  let customCardTextColor = localStorage.getItem('qr-card-text-color') || null;
-
-  function colorToHex(c) {
-    if (c === 'white') return '#ffffff';
-    if (c === 'black') return '#000000';
-    return c;
-  }
-
-  function applyTextColor(color) {
-    customCardTextColor = color;
-    localStorage.setItem('qr-card-text-color', color);
-    document.getElementById('cardPreview').style.color = color;
-    document.getElementById('cardTextColorPicker').value = color;
-  }
-
-  function resetTextColor() {
-    customCardTextColor = null;
-    localStorage.removeItem('qr-card-text-color');
-    if (customBgDataUrl) {
-      document.getElementById('cardPreview').style.color = 'white';
-      document.getElementById('cardTextColorPicker').value = '#ffffff';
-    } else {
-      const t = CARD_THEMES[activeTheme];
-      document.getElementById('cardPreview').style.color = t.text;
-      document.getElementById('cardTextColorPicker').value = colorToHex(t.text);
-    }
-  }
-
   function applyTheme(idx) {
     activeTheme = idx;
     localStorage.setItem('qr-card-theme', idx);
     const t = CARD_THEMES[idx];
     const card = document.getElementById('cardPreview');
     card.style.background = t.bg;
-    card.style.color = customCardTextColor || t.text;
-    const picker = document.getElementById('cardTextColorPicker');
-    if (picker) picker.value = customCardTextColor ? colorToHex(customCardTextColor) : colorToHex(t.text);
+    card.style.color = t.text;
     document.querySelectorAll('.theme-swatch').forEach((sw, i) => {
       sw.classList.toggle('active', i === idx);
     });
@@ -1512,9 +1474,7 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
   function applyCustomBg() {
     const card = document.getElementById('cardPreview');
     card.style.background = `url('${customBgDataUrl}') center/cover no-repeat`;
-    card.style.color = customCardTextColor || 'white';
-    const picker = document.getElementById('cardTextColorPicker');
-    if (picker) picker.value = colorToHex(customCardTextColor || 'white');
+    card.style.color = 'white';
   }
 
   function removeBg(e) {
