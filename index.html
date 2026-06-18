@@ -187,7 +187,7 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
     .right-col { display: flex; flex-direction: column; gap: 20px; }
 
     /* QR výstup */
-    .qr-output { text-align: center; }
+    .qr-output { text-align: center; display: flex; flex-direction: column; align-items: center; }
 
     #qr-container {
       display: inline-block;
@@ -913,6 +913,10 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
 <div class="toast" id="toast"></div>
 
 <script>
+  function esc(str) {
+    return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
   function syncColor(colorId, hexId) {
     const val = document.getElementById(hexId).value.trim();
     if (/^#[0-9a-fA-F]{6}$/.test(val)) {
