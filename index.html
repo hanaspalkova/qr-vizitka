@@ -1119,13 +1119,22 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
       if (logoDataUrl) overlayLogo(canvas, size);
       document.getElementById('qrActions').style.display = 'flex';
 
-      // Aktualizuj QR v náhledu vizitky
+      // Aktualizuj QR v náhledu vizitky – vysoké rozlišení proti rozmazání při škálování karty
+      const previewQr = new QRious({
+        value: vcardUtf8,
+        size: 600,
+        level: logoDataUrl ? 'H' : 'M',
+        foreground: dark,
+        background: light,
+        padding: 4
+      });
+      if (logoDataUrl) overlayLogo(previewQr.canvas, 600);
       const bcQr = document.getElementById('bcQrDisplay');
       const previewImg = new Image();
-      previewImg.src = canvas.toDataURL('image/png');
+      previewImg.src = previewQr.canvas.toDataURL('image/png');
       bcQr.className = '';
       bcQr.style.cssText = 'background:white;border-radius:8px;padding:8px;display:flex;align-items:center;justify-content:center;width:175px;height:175px;box-sizing:border-box;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,0.18);';
-      previewImg.style.cssText = 'width:159px;height:159px;display:block;border-radius:4px;';
+      previewImg.style.cssText = 'width:159px;height:159px;display:block;border-radius:4px;image-rendering:auto;';
       bcQr.innerHTML = '';
       bcQr.appendChild(previewImg);
 
