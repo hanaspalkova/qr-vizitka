@@ -3,7 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vizitkář</title>
+  <title>Vizitkář – digitální vizitka s QR kódem</title>
+  <meta name="description" content="Vytvořte si digitální vizitku s QR kódem během pár minut. Zadejte kontaktní údaje, vyberte styl a sdílejte přes QR nebo odkaz.">
+  <meta property="og:title" content="Vizitkář – digitální vizitka s QR kódem">
+  <meta property="og:description" content="Vytvořte si digitální vizitku s QR kódem během pár minut. Zadejte kontaktní údaje, vyberte styl a sdílejte přes QR nebo odkaz.">
+  <meta property="og:image" content="https://vizitkar.vercel.app/og-image.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://vizitkar.vercel.app">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="cs_CZ">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Vizitkář – digitální vizitka s QR kódem">
+  <meta name="twitter:description" content="Vytvořte si digitální vizitku s QR kódem během pár minut. Zadejte kontaktní údaje, vyberte styl a sdílejte přes QR nebo odkaz.">
+  <meta name="twitter:image" content="https://vizitkar.vercel.app/og-image.svg">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%231e3a8a'/%3E%3Cstop offset='55%25' stop-color='%230891b2'/%3E%3Cstop offset='100%25' stop-color='%2310b981'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='40' height='40' rx='10' fill='url(%23g)'/%3E%3Crect x='8' y='8' width='10' height='10' rx='2' fill='white'/%3E%3Crect x='10' y='10' width='6' height='6' rx='1' fill='url(%23g)'/%3E%3Crect x='22' y='8' width='10' height='10' rx='2' fill='white'/%3E%3Crect x='24' y='10' width='6' height='6' rx='1' fill='url(%23g)'/%3E%3Crect x='8' y='22' width='10' height='10' rx='2' fill='white'/%3E%3Crect x='10' y='24' width='6' height='6' rx='1' fill='url(%23g)'/%3E%3Crect x='22' y='22' width='4' height='4' fill='white'/%3E%3Crect x='28' y='22' width='4' height='4' fill='white'/%3E%3Crect x='22' y='28' width='4' height='4' fill='white'/%3E%3Crect x='28' y='28' width='4' height='4' fill='white'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -318,9 +331,6 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
     }
 
     .bc-qr-wrap img {
-      width: 175px;
-      height: 175px;
-      border-radius: 8px;
       display: block;
     }
 
@@ -1082,7 +1092,8 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
         size: size,
         level: logoDataUrl ? 'H' : 'M',
         foreground: dark,
-        background: light
+        background: light,
+        padding: 4
       });
 
       const canvas = qr.canvas;
@@ -1096,7 +1107,8 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
       const previewImg = new Image();
       previewImg.src = canvas.toDataURL('image/png');
       bcQr.className = '';
-      bcQr.style.cssText = '';
+      bcQr.style.cssText = 'background:white;border-radius:8px;padding:8px;display:inline-block;width:175px;height:175px;box-sizing:border-box;';
+      previewImg.style.cssText = 'width:100%;height:100%;display:block;border-radius:4px;';
       bcQr.innerHTML = '';
       bcQr.appendChild(previewImg);
 
@@ -1204,7 +1216,8 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
           .pos { font-size: ${(7.5 * cardFontScale).toFixed(1)}pt; opacity: 0.55; margin-bottom: 3mm; }
           .contact { display: flex; align-items: center; gap: 1.5mm; font-size: ${(7 * cardFontScale).toFixed(1)}pt; opacity: 0.85; margin-bottom: 1mm; }
           .qr-wrap { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 1mm; }
-          .qr-wrap img { width: 35mm; height: 35mm; border-radius: 2mm; display: block; }
+          .qr-box { background: white; border-radius: 2mm; padding: 1.5mm; display: inline-block; box-sizing: border-box; }
+          .qr-box img { width: 32mm; height: 32mm; display: block; }
           .qr-label { font-size: 5pt; opacity: 0.5; text-align: center; }
         </style>
       </head>
@@ -1219,7 +1232,7 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
             ${website ? `<div class="contact"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:3px"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>${website}</div>` : ''}
           </div>
           <div class="qr-wrap">
-            <img src="${qrDataUrl}" alt="QR">
+            <div class="qr-box"><img src="${qrDataUrl}" alt="QR"></div>
             <div class="qr-label">Naskenuj pro kontakt</div>
           </div>
         </div>
