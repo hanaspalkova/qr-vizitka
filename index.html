@@ -190,16 +190,22 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
     .qr-output { text-align: center; }
 
     #qr-container {
-      display: block;
-      width: fit-content;
-      margin: 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       padding: 16px;
       background: white;
       border-radius: 12px;
       border: 2px solid #e2e8f0;
+      margin: 0 auto;
     }
 
-    #qr-container canvas, #qr-container img { display: block; }
+    #qr-container canvas, #qr-container img {
+      display: block;
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
 
     .qr-placeholder {
       width: 200px;
