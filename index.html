@@ -862,6 +862,12 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
 
       <div class="card-themes" id="cardThemes"></div>
 
+      <div style="margin-top:12px;display:flex;align-items:center;gap:8px;">
+        <label style="margin:0;font-size:0.82rem;color:#718096;">Barva písma:</label>
+        <button id="textColorWhite" onclick="setCardTextColor('white')" style="padding:5px 14px;border:2px solid #0d9488;border-radius:6px;background:#2d3748;color:white;font-size:0.82rem;font-weight:700;cursor:pointer;">Bílé</button>
+        <button id="textColorBlack" onclick="setCardTextColor('black')" style="padding:5px 14px;border:2px solid transparent;border-radius:6px;background:#e2e8f0;color:#1a1a2e;font-size:0.82rem;font-weight:700;cursor:pointer;">Černé</button>
+      </div>
+
       <div style="margin-top:18px;">
         <div id="fontToggleBtn" onclick="toggleFonts()" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;">
           <label style="cursor:pointer;margin:0;">Font vizitky</label>
@@ -1177,7 +1183,7 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
     const cardBg = customBgDataUrl
       ? `url('${customBgDataUrl}') center/cover no-repeat`
       : theme.bg;
-    const cardColor = customBgDataUrl ? 'white' : theme.text;
+    const cardColor = cardTextColor;
 
     // Vygeneruj QR v tiskové kvalitě (600px) nezávisle na slideru
     const dark = document.getElementById('qrColorDark').value;
@@ -1227,9 +1233,9 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
             <div class="name">${fullName || '—'}</div>
             <div class="company">${company}</div>
             <div class="pos">${pos}</div>
-            ${mobile ? `<div class="contact"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:3px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>${mobile}</div>` : ''}
-            ${email ? `<div class="contact"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:3px"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6 L12 13 L2 6"/></svg>${email}</div>` : ''}
-            ${website ? `<div class="contact"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:3px"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>${website}</div>` : ''}
+            ${mobile ? `<div class="contact"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="${cardColor}" stroke-width="2" style="vertical-align:middle;margin-right:3px;flex-shrink:0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>${mobile}</div>` : ''}
+            ${email ? `<div class="contact"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="${cardColor}" stroke-width="2" style="vertical-align:middle;margin-right:3px;flex-shrink:0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6 L12 13 L2 6"/></svg>${email}</div>` : ''}
+            ${website ? `<div class="contact"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="${cardColor}" stroke-width="2" style="vertical-align:middle;margin-right:3px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>${website}</div>` : ''}
           </div>
           <div class="qr-wrap">
             <div class="qr-box"><img src="${qrDataUrl}" alt="QR"></div>
@@ -1388,13 +1394,23 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
   ];
 
   let activeTheme = parseInt(localStorage.getItem('qr-card-theme') || '0');
+  let cardTextColor = localStorage.getItem('qr-card-text-color') || 'white';
+
+  function setCardTextColor(color) {
+    cardTextColor = color;
+    localStorage.setItem('qr-card-text-color', color);
+    document.getElementById('cardPreview').style.color = color;
+    document.getElementById('textColorWhite').style.borderColor = color === 'white' ? '#0d9488' : 'transparent';
+    document.getElementById('textColorBlack').style.borderColor = color === 'black' ? '#0d9488' : 'transparent';
+  }
+
   function applyTheme(idx) {
     activeTheme = idx;
     localStorage.setItem('qr-card-theme', idx);
     const t = CARD_THEMES[idx];
     const card = document.getElementById('cardPreview');
     card.style.background = t.bg;
-    card.style.color = t.text;
+    card.style.color = cardTextColor;
     document.querySelectorAll('.theme-swatch').forEach((sw, i) => {
       sw.classList.toggle('active', i === idx);
     });
@@ -1474,7 +1490,7 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
   function applyCustomBg() {
     const card = document.getElementById('cardPreview');
     card.style.background = `url('${customBgDataUrl}') center/cover no-repeat`;
-    card.style.color = 'white';
+    card.style.color = cardTextColor;
   }
 
   function removeBg(e) {
@@ -1523,6 +1539,7 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
   loadColorSettings();
   initThemes();
   initFonts();
+  setCardTextColor(cardTextColor);
   applyFontScale(cardFontScale);
   scaleCardPreview();
   if (customBgDataUrl) {
