@@ -1134,7 +1134,7 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
       previewImg.src = previewQr.canvas.toDataURL('image/png');
       bcQr.className = '';
       bcQr.style.cssText = 'background:white;border-radius:8px;padding:8px;display:flex;align-items:center;justify-content:center;width:175px;height:175px;box-sizing:border-box;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,0.18);';
-      previewImg.style.cssText = 'width:159px;height:159px;display:block;border-radius:4px;image-rendering:auto;';
+      previewImg.style.cssText = 'width:159px;height:159px;display:block;border-radius:4px;image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges;transform:translateZ(0);';
       bcQr.innerHTML = '';
       bcQr.appendChild(previewImg);
 
