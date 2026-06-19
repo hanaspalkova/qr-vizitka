@@ -190,14 +190,13 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
     .qr-output { text-align: center; }
 
     #qr-container {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      display: inline-block;
       padding: 16px;
       background: white;
       border-radius: 12px;
-      border: 2px solid #e2e8f0;
-      margin: 0 auto;
+      box-shadow: 0 0 0 2px #e2e8f0;
+      line-height: 0;
+      font-size: 0;
     }
 
     #qr-container canvas, #qr-container img {
@@ -205,6 +204,7 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
       margin: 0;
       padding: 0;
       border: 0;
+      vertical-align: top;
     }
 
     .qr-placeholder {
@@ -952,6 +952,7 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
 
   let logoDataUrl = null;
   let currentVCard = '';
+  let currentQrCanvas = null;
 
   // Live náhled vizitky
   const liveFields = ['firstName','lastName','titleBefore','titleAfter','position','company','mobile','phone','email','website'];
@@ -1114,9 +1115,20 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
       });
 
       const canvas = qr.canvas;
-      document.getElementById('qrcode').appendChild(canvas);
-
       if (logoDataUrl) overlayLogo(canvas, size);
+      currentQrCanvas = canvas;
+
+      // Vykresli jako IMG s pevnými atributy – žádné canvas quirky na desktopu
+      const outImg = document.createElement('img');
+      outImg.setAttribute('width', size);
+      outImg.setAttribute('height', size);
+      outImg.style.cssText = 'display:block;width:' + size + 'px;height:' + size + 'px;margin:0;padding:0;border:0;';
+      outImg.alt = 'QR kód';
+      outImg.src = canvas.toDataURL('image/png');
+      const qrcodeEl = document.getElementById('qrcode');
+      qrcodeEl.innerHTML = '';
+      qrcodeEl.appendChild(outImg);
+
       document.getElementById('qrActions').style.display = 'flex';
 
       // Aktualizuj QR v náhledu vizitky – vysoké rozlišení proti rozmazání při škálování karty
@@ -1168,7 +1180,7 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
   }
 
   function downloadQR() {
-    const canvas = document.querySelector('#qrcode canvas');
+    const canvas = currentQrCanvas;
     if (!canvas) return;
 
     const fn = document.getElementById('firstName').value.trim();
@@ -1181,7 +1193,7 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
   }
 
   function printCard() {
-    const canvas = document.querySelector('#qrcode canvas');
+    const canvas = currentQrCanvas;
     if (!canvas) { showToast('Nejdřív vygeneruj QR kód'); return; }
 
     const fn = document.getElementById('firstName').value.trim();
@@ -1294,7 +1306,7 @@ Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License
     'linkedin','instagram','facebook','youtube','note','qrColorDark','qrColorLight','qrSize'];
 
   function saveToGallery() {
-    const canvas = document.querySelector('#qrcode canvas');
+    const canvas = currentQrCanvas;
     if (!canvas) { showToast('Nejdřív vygeneruj QR kód'); return; }
 
     const fn = document.getElementById('firstName').value.trim();
